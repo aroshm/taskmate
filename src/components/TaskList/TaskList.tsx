@@ -1,54 +1,40 @@
 import "./TaskList.scss";
 import { useState } from "react";
 import TaskCard from "../TaskCard/TaskCard";
-import BoxCardAlert from "../BoxCardAlert/BoxCardAlert";
 
-interface TaskListProps {
-  info: string
+interface Task {
+  id: number;
+  taskName: string;
+  completed: boolean;
 }
 
-const TaskList = ({info}: TaskListProps) => {
-  const [tasks, setTasks] = useState([
-    { id: 1, taskName: "Typescript lecture", completed: true, info },
-    { id: 2, taskName: "React lecture", completed: false, info },
-    { id: 3, taskName: "React job", completed: false, info },
-  ]);
+interface TaskListProps {
+  tasks: Task[];
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+}
+
+const TaskList: React.FC<TaskListProps> = ({ tasks, setTasks }) => {
   const handleDelete = (taskToDelete: number) => {
     const updatedTasks = tasks.filter((task) => task.id !== taskToDelete);
 
     setTasks(updatedTasks);
   };
 
+  const [show, setShow] = useState(true);
+
   return (
     <section className="tasklist">
-      <h1 style={{color: 'red'}}>Task List</h1>
       <ul>
+        <div className="header">
+          <h1>TaskList</h1>
+          <button className="trigger" onClick={() => setShow(!show)}>
+            {show ? "Hide Tasks" : "Show Tasks"}
+          </button>
+        </div>
         {tasks.map((task) => (
           <TaskCard key={task.id} task={task} handleDelete={handleDelete} />
         ))}
       </ul>
-
-      <BoxCardAlert status="success">
-        <p className="title">Lorem, ipsum.</p>
-        <p className="description">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, nemo?
-        </p>
-      </BoxCardAlert>
-      <BoxCardAlert status="warning">
-        <p className="title">Lorem, ipsum dolor.</p>
-        <p className="description">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime non
-          unde obcaecati, ad eius voluptatibus!
-        </p>
-      </BoxCardAlert>
-      <BoxCardAlert status="alert">
-        <p className="title">Lorem ipsum dolor sit amet.</p>
-        <p className="description">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora
-          quisquam autem quae aut ullam in saepe necessitatibus libero error!
-          Laboriosam.
-        </p>
-      </BoxCardAlert>
     </section>
   );
 };

@@ -4,7 +4,6 @@ interface Task {
   id: number;
   taskName: string;
   completed: boolean;
-  info: string;
 }
 
 interface TaskCardProps {
@@ -17,7 +16,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, handleDelete }) => {
     <div className="taskcard">
       <li key={task.id} className={task.completed ? "completed" : "incomplete"}>
         <span>
-          {task.id} - {task.taskName} - {task.info}
+          {task.id} - {task.taskName}
         </span>
         <button className="delete" onClick={() => handleDelete(task.id)}>
           Delete
